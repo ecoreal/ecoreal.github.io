@@ -1,0 +1,15 @@
+{
+  "name": "Jerry Lee",
+  "short_name": "Jerry Lee",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f4f6f2",
+  "theme_color": "#f4f6f2",
+  "icons": [
+    {
+      "src": "assets/profile-mark.png",
+      "sizes": "420x420",
+      "type": "image/png"
+    }
+  ]
+}

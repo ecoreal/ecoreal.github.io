@@ -1,0 +1,128 @@
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var themeToggle = document.querySelector('[data-theme-toggle]');
+  var themeMeta = document.querySelector('meta[name="theme-color"]');
+  var menuToggle = document.querySelector('[data-menu-toggle]');
+  var mobileNav = document.querySelector('[data-mobile-nav]');
+  var header = document.querySelector('[data-header]');
+  var filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
+  var projectCards = Array.from(document.querySelectorAll('[data-category]'));
+  var filterStatus = document.querySelector('[data-filter-status]');
+
+  function applyTheme(theme, persist) {
+    root.dataset.theme = theme;
+    themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
+    themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    themeMeta.setAttribute('content', theme === 'dark' ? '#111512' : '#f4f6f2');
+    if (persist) {
+      try {
+        localStorage.setItem('theme', theme);
+      } catch (error) {
+        // Theme still works for this page view when storage is unavailable.
+      }
+    }
+  }
+
+  applyTheme(root.dataset.theme || 'light', false);
+
+  themeToggle.addEventListener('click', function () {
+    applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
+  });
+
+  function setMenu(open) {
+    menuToggle.setAttribute('aria-expanded', String(open));
+    menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    mobileNav.classList.toggle('is-open', open);
+    document.body.classList.toggle('menu-open', open);
+  }
+
+  menuToggle.addEventListener('click', function () {
+    setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  mobileNav.addEventListener('click', function (event) {
+    if (event.target.closest('a')) setMenu(false);
+  });
+
+  document.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') setMenu(false);
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 760) setMenu(false);
+  });
+
+  function updateHeader() {
+    header.classList.toggle('is-scrolled', window.scrollY > 12);
+  }
+
+  updateHeader();
+  window.addEventListener('scroll', updateHeader, { passive: true });
+
+  filterButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var filter = button.dataset.filter;
+      var visibleCount = 0;
+
+      filterButtons.forEach(function (candidate) {
+        var active = candidate === button;
+        candidate.classList.toggle('is-active', active);
+        candidate.setAttribute('aria-pressed', String(active));
+      });
+
+      projectCards.forEach(function (card) {
+        var categories = card.dataset.category.split(' ');
+        var visible = filter === 'all' || categories.includes(filter);
+        card.hidden = !visible;
+        if (visible) visibleCount += 1;
+      });
+
+      var label = button.textContent.trim();
+      filterStatus.textContent = filter === 'all'
+        ? 'Showing all ' + visibleCount + ' projects.'
+        : 'Showing ' + visibleCount + ' projects in ' + label + '.';
+    });
+  });
+
+  var revealItems = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var revealObserver = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.05, rootMargin: '0px 0px -8px' });
+
+    revealItems.forEach(function (item) {
+      revealObserver.observe(item);
+    });
+  } else {
+    revealItems.forEach(function (item) {
+      item.classList.add('is-visible');
+    });
+  }
+
+  var sections = Array.from(document.querySelectorAll('main section[id]'));
+  var desktopLinks = Array.from(document.querySelectorAll('.desktop-nav a'));
+  if ('IntersectionObserver' in window) {
+    var sectionObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        desktopLinks.forEach(function (link) {
+          var active = link.getAttribute('href') === '#' + entry.target.id;
+          if (active) link.setAttribute('aria-current', 'true');
+          else link.removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-30% 0px -60%' });
+
+    sections.forEach(function (section) {
+      sectionObserver.observe(section);
+    });
+  }
+
+  document.querySelector('[data-year]').textContent = String(new Date().getFullYear());
+}());
