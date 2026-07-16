@@ -7,6 +7,8 @@
   var menuToggle = document.querySelector('[data-menu-toggle]');
   var mobileNav = document.querySelector('[data-mobile-nav]');
   var header = document.querySelector('[data-header]');
+  var main = document.querySelector('main');
+  var footer = document.querySelector('footer');
   var filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
   var projectCards = Array.from(document.querySelectorAll('[data-category]'));
   var filterStatus = document.querySelector('[data-filter-status]');
@@ -15,6 +17,7 @@
     root.dataset.theme = theme;
     themeToggle.setAttribute('aria-pressed', String(theme === 'dark'));
     themeToggle.setAttribute('aria-label', theme === 'dark' ? 'Switch to light theme' : 'Switch to dark theme');
+    themeToggle.dataset.tooltip = theme === 'dark' ? 'Light mode' : 'Dark mode';
     themeMeta.setAttribute('content', theme === 'dark' ? '#111512' : '#f4f6f2');
     if (persist) {
       try {
@@ -31,27 +34,42 @@
     applyTheme(root.dataset.theme === 'dark' ? 'light' : 'dark', true);
   });
 
-  function setMenu(open) {
+  function setMenu(open, restoreFocus) {
     menuToggle.setAttribute('aria-expanded', String(open));
     menuToggle.setAttribute('aria-label', open ? 'Close navigation' : 'Open navigation');
+    menuToggle.dataset.tooltip = open ? 'Close menu' : 'Menu';
+    mobileNav.setAttribute('aria-hidden', String(!open));
+    mobileNav.inert = !open;
+    main.inert = open;
+    footer.inert = open;
     mobileNav.classList.toggle('is-open', open);
     document.body.classList.toggle('menu-open', open);
+
+    if (open) {
+      window.requestAnimationFrame(function () {
+        mobileNav.querySelector('a').focus();
+      });
+    } else if (restoreFocus !== false && mobileNav.contains(document.activeElement)) {
+      menuToggle.focus();
+    }
   }
 
   menuToggle.addEventListener('click', function () {
-    setMenu(menuToggle.getAttribute('aria-expanded') !== 'true');
+    setMenu(menuToggle.getAttribute('aria-expanded') !== 'true', true);
   });
 
   mobileNav.addEventListener('click', function (event) {
-    if (event.target.closest('a')) setMenu(false);
+    if (event.target.closest('a')) setMenu(false, false);
   });
 
   document.addEventListener('keydown', function (event) {
-    if (event.key === 'Escape') setMenu(false);
+    if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') {
+      setMenu(false, true);
+    }
   });
 
   window.addEventListener('resize', function () {
-    if (window.innerWidth > 760) setMenu(false);
+    if (window.innerWidth > 760) setMenu(false, false);
   });
 
   function updateHeader() {
@@ -79,7 +97,7 @@
         if (visible) visibleCount += 1;
       });
 
-      var label = button.textContent.trim();
+      var label = button.childNodes[0].textContent.trim();
       filterStatus.textContent = filter === 'all'
         ? 'Showing all ' + visibleCount + ' projects.'
         : 'Showing ' + visibleCount + ' projects in ' + label + '.';

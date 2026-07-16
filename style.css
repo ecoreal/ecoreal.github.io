@@ -46,6 +46,7 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-gutter: stable;
   scroll-padding-top: calc(var(--header-height) + 20px);
 }
 
@@ -57,10 +58,12 @@ body {
   font-size: 16px;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 body.menu-open {
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 button,
@@ -93,6 +96,16 @@ h2,
 h3 {
   line-height: 1.08;
   letter-spacing: 0;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+::selection {
+  background: var(--mint);
+  color: #101713;
 }
 
 h1,
@@ -243,8 +256,8 @@ h2 {
 .icon-button {
   position: relative;
   display: inline-grid;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   place-items: center;
   border: 1px solid var(--line);
@@ -416,6 +429,18 @@ h2 {
   transform: translateY(-2px);
 }
 
+.button .icon-arrow-up-right,
+.text-link .icon-arrow-up-right {
+  transition: transform 160ms ease;
+}
+
+.button:hover .icon-arrow-up-right,
+.button:focus-visible .icon-arrow-up-right,
+.text-link:hover .icon-arrow-up-right,
+.text-link:focus-visible .icon-arrow-up-right {
+  transform: translate(2px, -2px);
+}
+
 .button-primary {
   background: var(--ink);
   color: var(--page);
@@ -557,6 +582,19 @@ h2 {
   color: var(--page);
 }
 
+.filter-count {
+  display: inline-block;
+  min-width: 16px;
+  margin-left: 5px;
+  padding-left: 5px;
+  border-left: 1px solid currentColor;
+  font-family: "SFMono-Regular", Consolas, monospace;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.68;
+  text-align: right;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -574,7 +612,8 @@ h2 {
   transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
 }
 
-.project-card:hover {
+.project-card:hover,
+.project-card:focus-within {
   border-color: var(--line-strong);
   box-shadow: var(--shadow);
   transform: translateY(-3px);
@@ -606,7 +645,8 @@ h2 {
   transition: transform 300ms ease;
 }
 
-.project-card:hover .project-media img {
+.project-card:hover .project-media img,
+.project-card:focus-within .project-media img {
   transform: scale(1.025);
 }
 
@@ -1021,13 +1061,14 @@ h2 {
   }
 
   .mobile-nav {
-    position: fixed;
+    position: absolute;
     z-index: 90;
-    top: var(--header-height);
+    top: 100%;
     right: 0;
-    bottom: 0;
+    bottom: auto;
     left: 0;
     display: flex;
+    height: calc(100svh - var(--header-height));
     flex-direction: column;
     padding: 36px 24px;
     background: var(--page);
@@ -1037,7 +1078,12 @@ h2 {
     transition: opacity 180ms ease, transform 180ms ease;
   }
 
+  .mobile-nav[aria-hidden="true"] {
+    visibility: hidden;
+  }
+
   .mobile-nav.is-open {
+    visibility: visible;
     opacity: 1;
     pointer-events: auto;
     transform: translateY(0);
@@ -1053,6 +1099,11 @@ h2 {
     font-size: 30px;
     font-weight: 600;
     text-decoration: none;
+  }
+
+  .mobile-nav a:hover,
+  .mobile-nav a:focus-visible {
+    color: var(--accent-strong);
   }
 
   .hero {
@@ -1209,7 +1260,17 @@ h2 {
 
   .filter-bar {
     display: flex;
-    margin-right: -16px;
+    width: 100%;
+    margin-right: 0;
+  }
+
+  .filter-button {
+    padding-inline: 5px;
+    font-size: 12px;
+  }
+
+  .filter-count {
+    display: none;
   }
 
   .focus-grid {

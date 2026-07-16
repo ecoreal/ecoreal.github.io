@@ -4,9 +4,22 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#f4f6f2">
   <link rel="icon" type="image/png" href="/assets/profile-mark.png">
   <link rel="stylesheet" href="/style.css">
   <title>Page not found | Jerry Lee</title>
+  <script>
+    (function () {
+      var requested = new URLSearchParams(location.search).get('theme');
+      var saved = null;
+      try { saved = localStorage.getItem('theme'); } catch (error) { saved = null; }
+      var preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      var forced = requested === 'dark' || requested === 'light' ? requested : null;
+      var theme = forced || saved || preferred;
+      document.documentElement.dataset.theme = theme;
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', theme === 'dark' ? '#111512' : '#f4f6f2');
+    }());
+  </script>
 </head>
 <body class="not-found-page">
   <main class="not-found">
