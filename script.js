@@ -9,9 +9,6 @@
   var header = document.querySelector('[data-header]');
   var main = document.querySelector('main');
   var footer = document.querySelector('footer');
-  var filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-  var projectCards = Array.from(document.querySelectorAll('[data-category]'));
-  var filterStatus = document.querySelector('[data-filter-status]');
 
   function applyTheme(theme, persist) {
     root.dataset.theme = theme;
@@ -78,31 +75,6 @@
 
   updateHeader();
   window.addEventListener('scroll', updateHeader, { passive: true });
-
-  filterButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-      var filter = button.dataset.filter;
-      var visibleCount = 0;
-
-      filterButtons.forEach(function (candidate) {
-        var active = candidate === button;
-        candidate.classList.toggle('is-active', active);
-        candidate.setAttribute('aria-pressed', String(active));
-      });
-
-      projectCards.forEach(function (card) {
-        var categories = card.dataset.category.split(' ');
-        var visible = filter === 'all' || categories.includes(filter);
-        card.hidden = !visible;
-        if (visible) visibleCount += 1;
-      });
-
-      var label = button.childNodes[0].textContent.trim();
-      filterStatus.textContent = filter === 'all'
-        ? 'Showing all ' + visibleCount + ' projects.'
-        : 'Showing ' + visibleCount + ' projects in ' + label + '.';
-    });
-  });
 
   var revealItems = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {

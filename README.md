@@ -1,6 +1,6 @@
 # ecoreal.github.io
 
-Personal portfolio for Jerry Lee, published at <https://ecoreal.github.io/>.
+Academic homepage for Jiahui Li, published at <https://ecoreal.github.io/>.
 
 ## Local preview
 
