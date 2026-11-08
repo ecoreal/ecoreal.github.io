@@ -137,15 +137,144 @@
         </div>
 
         <div class="filter-bar reveal" role="group" aria-label="Filter projects">
-          <button type="button" class="filter-button is-active" data-filter="all" aria-controls="project-grid" aria-pressed="true">All <span class="filter-count" aria-hidden="true">5</span></button>
+          <button type="button" class="filter-button is-active" data-filter="all" aria-controls="project-grid" aria-pressed="true">All <span class="filter-count" aria-hidden="true">11</span></button>
+          <button type="button" class="filter-button" data-filter="cli" aria-controls="project-grid" aria-pressed="false">CLI &amp; Network <span class="filter-count" aria-hidden="true">6</span></button>
+          <button type="button" class="filter-button" data-filter="ai" aria-controls="project-grid" aria-pressed="false">AI &amp; Agents <span class="filter-count" aria-hidden="true">5</span></button>
+          <button type="button" class="filter-button" data-filter="security" aria-controls="project-grid" aria-pressed="false">Security <span class="filter-count" aria-hidden="true">2</span></button>
           <button type="button" class="filter-button" data-filter="systems" aria-controls="project-grid" aria-pressed="false">Systems <span class="filter-count" aria-hidden="true">2</span></button>
-          <button type="button" class="filter-button" data-filter="ai" aria-controls="project-grid" aria-pressed="false">AI &amp; Security <span class="filter-count" aria-hidden="true">2</span></button>
           <button type="button" class="filter-button" data-filter="vision" aria-controls="project-grid" aria-pressed="false">Vision <span class="filter-count" aria-hidden="true">2</span></button>
           <button type="button" class="filter-button" data-filter="web" aria-controls="project-grid" aria-pressed="false">Web <span class="filter-count" aria-hidden="true">2</span></button>
         </div>
         <p class="visually-hidden" data-filter-status aria-live="polite">Showing all projects.</p>
 
         <div class="project-grid" id="project-grid">
+          <article class="project-card project-card-featured reveal" data-category="cli network">
+            <div class="terminal-preview" aria-label="ipure command line output">
+              <div class="terminal-title"><span>ipure</span><span>read-only · offline-capable</span></div>
+              <pre><code>$ npx ipure sub ./nodes.yaml --probe --html report.html
+
+   节点 5 · 独立出口 IP 5 · 实测可用 5/5
+   纯净度 ▇▇▇▇▇▇░░░░ 61/100
+   1  US-NY-01  http  158.46.131.10  家宽  原生  100 S
+   2  TW-TP-07  http  178.171.80.225  机房  广播   45 C</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">Network diagnostics · Node.js</p>
+              <h3><a href="https://github.com/ecoreal/ipure" target="_blank" rel="noreferrer">ipure <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>Local-first IP purity check: itemised 0–100 scoring, real-traffic exit verification, duplicate-exit detection, native/broadcast via RIR data, DNSBL and Spamhaus DROP. <a href="https://ecoreal.github.io/ipure/demo-report.html" target="_blank" rel="noreferrer">Live demo report</a>.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Zero dependencies</li>
+                <li>Exit verification</li>
+                <li>Spamhaus DROP</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="project-card project-card-featured reveal" data-category="cli security">
+            <div class="terminal-preview" aria-label="agentjanitor command line output">
+              <div class="terminal-title"><span>agentjanitor</span><span>read-only scan</span></div>
+              <pre><code>$ npx agentjanitor
+
+   检测到 4 个 AI CLI · 数据共 1.9 GB
+   🚨 3 个密钥泄露进会话记录 (transcript)
+     DeepSeek  sk-…a1f2  ×5 处
+   ⚠ 444 MB 超过 90 天未动 — 可清理候选</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">Security audit · Node.js</p>
+              <h3><a href="https://github.com/ecoreal/agentjanitor" target="_blank" rel="noreferrer">agentjanitor <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>The health check for every AI CLI on your machine: disk hogs, plaintext keys in configs, secrets that leaked into session transcripts, and MCP config duplication across CLIs.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Secret scanning</li>
+                <li>14 CLI registry</li>
+                <li>Read-only</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-category="cli ai">
+            <div class="terminal-preview" aria-label="duel command line output">
+              <div class="terminal-title"><span>duel</span><span>deterministic arena</span></div>
+              <pre><code>$ duel eval bots/counter.mjs bots/adapt.mjs --games 100
+
+   counter   86.0%   adapt   8.0%   draws  12.0%
+   avg 6.5 turns/game · 0 invalid moves</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">AI agents · Node.js</p>
+              <h3><a href="https://github.com/ecoreal/duel" target="_blank" rel="noreferrer">duel <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>A deterministic AI-agent arena in your terminal: any executable can fight, every match is a replayable 2 KB file, and the ELO ladder keeps receipts.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Replayable</li>
+                <li>ELO ladder</li>
+                <li>Pick&amp;ban</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-category="cli ai">
+            <div class="terminal-preview" aria-label="tape command line output">
+              <div class="terminal-title"><span>tape</span><span>offline · no keys</span></div>
+              <pre><code>$ tape gif demo-session.jsonl --delay 60
+
+🎞 25 frames · 800x313 · 233 KB (delta)
+   every frame is a step — replay, grep, share</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">AI agents · Node.js</p>
+              <h3><a href="https://github.com/ecoreal/tape" target="_blank" rel="noreferrer">tape <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>A time-travel debugger for AI agent sessions: reads the JSONL your agent already writes, replays any step as frames, greps across formats.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Time travel</li>
+                <li>Zero deps</li>
+                <li>Delta GIF</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-category="cli ai">
+            <div class="terminal-preview" aria-label="mogwai terminal output">
+              <div class="terminal-title"><span>mogwai</span><span>a pet with a repo for a brain</span></div>
+              <pre><code>   /\_/\
+  ( ^ω^ )   ← Gizmo, feeling cozy
+   > ~ <
+   growth rings: 5 commits · bond: 5/100
+   curiosity  ▇▇▇▇▇▇░░░░ 55%</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">AI agents · Node.js</p>
+              <h3><a href="https://github.com/ecoreal/mogwai" target="_blank" rel="noreferrer">mogwai <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>A terminal pet whose brain is a git repo: memories decay, personality drifts with what actually happens, and forgetting is reversible.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Local-first</li>
+                <li>Memory decay</li>
+                <li>Tamagotchi</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="project-card reveal" data-category="cli network">
+            <div class="terminal-preview" aria-label="synapse terminal output">
+              <div class="terminal-title"><span>synapse</span><span>probe → verdict</span></div>
+              <pre><code>$ synapse doctor --fix
+
+   station-1  ok    214ms  12 models
+   station-2  fail  ECONNRESET (3h)
+   预览: chmod 664 → 600  ×38
+   (--apply 真改，自动备份)</code></pre>
+            </div>
+            <div class="project-body">
+              <p class="project-type">Network diagnostics · Python</p>
+              <h3><a href="https://github.com/ecoreal/synapse" target="_blank" rel="noreferrer">synapse <span class="icon icon-arrow-up-right" aria-hidden="true"></span></a></h3>
+              <p>Connectivity monitor and config repair for model relay stations — pure Python stdlib, probe-first, and it never edits a config without a backup.</p>
+              <ul class="tag-list" aria-label="Technologies">
+                <li>Stdlib only</li>
+                <li>Probe-first</li>
+                <li>Auto backup</li>
+              </ul>
+            </div>
+          </article>
+
           <article class="project-card project-card-featured reveal" data-category="ai">
             <div class="terminal-preview" aria-label="Agentic Risk Scan command line output">
               <div class="terminal-title"><span>agentic-risk-scan</span><span>scan complete</span></div>
@@ -173,7 +302,7 @@ untrusted pull request code</code></pre>
 
           <article class="project-card reveal" data-category="systems">
             <a class="project-media" href="https://github.com/ecoreal/xv6-riscv" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">
-              <img src="assets/projects/xv6-riscv.webp" width="960" height="960" alt="">
+              <img src="assets/projects/xv6-riscv.png" width="960" height="960" alt="">
             </a>
             <div class="project-body">
               <p class="project-type">Systems · C · RISC-V</p>
@@ -189,7 +318,7 @@ untrusted pull request code</code></pre>
 
           <article class="project-card reveal" data-category="systems web">
             <a class="project-media" href="https://github.com/ecoreal/m2html" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">
-              <img src="assets/projects/m2html.webp" width="960" height="960" alt="">
+              <img src="assets/projects/m2html.png" width="960" height="960" alt="">
             </a>
             <div class="project-body">
               <p class="project-type">Developer tool · Rust</p>
@@ -205,7 +334,7 @@ untrusted pull request code</code></pre>
 
           <article class="project-card reveal" data-category="vision ai">
             <a class="project-media" href="https://github.com/ecoreal/pytorch-portrait-segmentation" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">
-              <img src="assets/projects/pytorch-portrait-segmentation.webp" width="960" height="960" alt="">
+              <img src="assets/projects/pytorch-portrait-segmentation.png" width="960" height="960" alt="">
             </a>
             <div class="project-body">
               <p class="project-type">Computer vision · PyTorch</p>
@@ -221,7 +350,7 @@ untrusted pull request code</code></pre>
 
           <article class="project-card reveal" data-category="vision web">
             <a class="project-media" href="https://github.com/ecoreal/3dgs-memory-lab" target="_blank" rel="noreferrer" tabindex="-1" aria-hidden="true">
-              <img src="assets/projects/3dgs-memory-lab.webp" width="960" height="960" alt="">
+              <img src="assets/projects/3dgs-memory-lab.png" width="960" height="960" alt="">
             </a>
             <div class="project-body">
               <p class="project-type">3D vision · Web</p>
